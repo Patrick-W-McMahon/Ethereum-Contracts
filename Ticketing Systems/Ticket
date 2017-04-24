@@ -3,15 +3,16 @@ pragma solidity ^0.4.0;
 contract Ticket {
     address public owner;
     string ticketName;
-    
     mapping (address => uint) tickets;
     
+    /* Constructor */
     function Ticket(string _ticketName, uint _startingTickets) {
         owner = msg.sender;
         ticketName = _ticketName;
         tickets[owner] = _startingTickets;
     }
     
+    /* transfer tickets to user */
     function transfer(address _to, uint _value) returns (bool _success) {
         if (tickets[msg.sender] < _value) {
             return false;
@@ -21,6 +22,10 @@ contract Ticket {
         return true;
     }
     
+    /* Function to recover the funds on the contract */
+    function kill() { if (msg.sender == owner) selfdestruct(owner); }
+    
+    /* Get the number of tickets a user has */
     function getTicketCount(address _user) constant returns (uint _ticketCount) {
         return tickets[_user];
     }
