@@ -5,8 +5,11 @@ contract Ticket {
     string ticketName;
     mapping (address => uint) tickets;
     
+    /* this function is executed at initialization and sets the owner of the contract */
+    function mortal() { owner = msg.sender; }
+    
     /* Constructor */
-    function Ticket(string _ticketName, uint _startingTickets) {
+    function Ticket(string _ticketName, uint _startingTickets) is mortal {
         owner = msg.sender;
         ticketName = _ticketName;
         tickets[owner] = _startingTickets;
