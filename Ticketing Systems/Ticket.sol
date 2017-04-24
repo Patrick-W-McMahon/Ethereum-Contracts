@@ -32,4 +32,13 @@ contract Ticket {
     function getTicketCount(address _user) constant returns (uint _ticketCount) {
         return tickets[_user];
     }
+    
+    function consumeTicket(address _user, uint _count) returns (bool _success) {
+        if (msg.sender == owner && tickets[_user] >= _count) {
+            tickets[_user] -= _count;
+            tickets[owner] += _count;
+            return true;
+        }
+        return false;
+    }
 }
